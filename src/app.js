@@ -16,6 +16,7 @@ app.use(myConnection(mysql, {
 
   app.get('/products', (req, res) => {
     req.getConnection((err, conn) => {
+      if(err){res.json(err)}
       conn.query('SELECT * FROM product', (err, products) => {
        if (err) {
         res.json(err);
@@ -26,13 +27,25 @@ app.use(myConnection(mysql, {
 
     app.get('/categories', (req, res) => {
         req.getConnection((err, conn) => {
+          if(err) {res.json(err)}
           conn.query('SELECT * FROM category', (err, category) => {
            if (err) {
             res.json(err);
            }
            res.json(category)
           });
-        })}); 
+        })});
+      
+    app.get('/query/:search', (req, res) => {
+          req.getConnection((err, conn) => {
+            if(err){res.json(err)}
+            conn.query(`SELECT * FROM product WHERE name LIKE '%${req.params.search}%'`, (err, product) => {
+             if (err) {
+              res.json(err);
+             }
+             res.json(product)
+            });
+          })});
     app.listen(app.get('port'), () => {
         console.log(`server on port ${app.get('port')}`);
       });
