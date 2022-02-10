@@ -2,9 +2,11 @@ const express = require('express'),
       path = require('path'),
       morgan = require('morgan'),
       mysql = require('mysql'),
-      myConnection = require('express-myconnection');
+      myConnection = require('express-myconnection'),
+      cors = require('cors');
 
 const app = express();
+app.use(cors())
 app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use(myConnection(mysql, {
