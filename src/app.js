@@ -14,11 +14,14 @@ app.use(myConnection(mysql, {
     user: 'bsale_test',
     password: 'bsale_test',
     database: 'bsale_test'
-  }, 'pool'));
+  }, 'single'));
 
   app.get('/products', (req, res) => {
     req.getConnection((err, conn) => {
-      if(err){res.json(err)}
+      if(err){
+        res.json(err)
+        return
+      }
       conn.query('SELECT * FROM product', (err, products) => {
        if (err) {
         res.json(err);
@@ -30,7 +33,10 @@ app.use(myConnection(mysql, {
 
     app.get('/categories', (req, res) => {
         req.getConnection((err, conn) => {
-          if(err) {res.json(err)}
+          if(err) {
+            res.json(err)
+            return
+          }
           conn.query('SELECT * FROM category', (err, category) => {
            if (err) {
             res.json(err);
@@ -41,7 +47,10 @@ app.use(myConnection(mysql, {
       
     app.get('/query/:search', (req, res) => {
           req.getConnection((err, conn) => {
-            if(err){res.json(err)}
+            if(err){
+              res.json(err)
+              return
+            }
             conn.query(`SELECT * FROM product WHERE name LIKE '%${req.params.search}%'`, (err, product) => {
              if (err) {
               res.json(err);
