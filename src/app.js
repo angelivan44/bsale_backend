@@ -14,7 +14,7 @@ app.use(myConnection(mysql, {
     user: 'bsale_test',
     password: 'bsale_test',
     database: 'bsale_test'
-  }, 'single'));
+  }, 'request'));
 
   app.get('/products', (req, res) => {
     req.getConnection((err, conn) => {
@@ -24,6 +24,7 @@ app.use(myConnection(mysql, {
         res.json(err);
        }
        res.json(products)
+    ;
       });
     })});
 
